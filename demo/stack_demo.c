@@ -1,29 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
-#include"../src/stack.h"
-
-/*-----------------int_obj--------------------*/
-typedef struct _int {
-    int _;
-} _int;
-
-typedef _int* _int_obj;
-
-_int_obj int_obj(int x) {
-    _int_obj _x = (_int_obj)malloc(sizeof(_int));
-    _x->_ = x;
-    return _x;
-}
-
-void int_obj_free(_int_obj x) {
-    free(x);
-}
-
-void int_obj_print(_int_obj x) {
-    fprintf(stdout, "%d ", x->_);
-}
-/*--------------------------------------------*/
+#include"stack.h"
 
 /*--------------complex_struct----------------*/
 typedef struct _complex_struct {
@@ -49,48 +27,70 @@ void cplx_strct_print(_cplx_strct c) {
 }
 /*--------------------------------------------*/
 
-int main() {
-    fprintf(stdout, "int stack\n");
-    stack_t s_int = stack_new(sizeof(_int));
-    _int_obj a = int_obj(1);
-    _int_obj b = int_obj(2);
-    _int_obj c = int_obj(3);
-    _int_obj d = int_obj(4);
-    _int_obj e = int_obj(5);
-    _int_obj f = int_obj(6);
-    stack_push(s_int, a);
-    stack_push(s_int, c);
-    stack_push(s_int, e);
-    stack_push(s_int, b);
-    stack_push(s_int, d);
-    stack_push(s_int, f);
-    fprintf(stdout, "stack_size: %lld\n", stack_size(s_int));
-    int_obj_free(a);
-    int_obj_free(b);
-    int_obj_free(c);
-    int_obj_free(d);
-    int_obj_free(e);
-    int_obj_free(f);
-    _int_obj t = int_obj(0);
+int main(void) {
     int i;
-    for (i = 0; i < 10; i++) {
-        stack_peek(s_int, t);
-        int_obj_print(t);
-    }
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    stack_pop(s_int, t);
-    int_obj_print(t);
-    fprintf(stdout, "\n");
-    int_obj_free(t);
+    
+    fprintf(stdout, "int stack\n");
+    stack_t s_int = stack_new(sizeof(unsigned long long));
+    unsigned long long t;
+    t = 1844674407370955161;
+    stack_push(s_int, &t);
+    t = 1844674409551615;
+    stack_push(s_int, &t);
+    t = 3246744073709551615;
+    stack_push(s_int, &t);
+    t = 146744073709551615;
+    stack_push(s_int, &t);
+    t = 44073709551615;
+    stack_push(s_int, &t);
+    t = 8446744073709551615;
+    stack_push(s_int, &t);
+    
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    stack_pop(s_int, &t);
+    fprintf(stdout, "%llu\n", t);
+    fprintf(stdout, "----------------\n");
+    stack_free(s_int);
+    
+    fprintf(stdout, "float stack\n");
+    stack_t s_float = stack_new(sizeof(float));
+    float f;
+    f = 1.02f;
+    stack_push(s_int, &f);
+    f = 3.14f;
+    stack_push(s_int, &f);
+    f = 32.293f;
+    stack_push(s_int, &f);
+    f = 2123.2f;
+    stack_push(s_int, &f);
+    f = 0.000014f;
+    stack_push(s_int, &f);
+    f = 2222.2222f;
+    stack_push(s_int, &f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    stack_pop(s_int, &f);
+    fprintf(stdout, "%f\n", f);
+    fprintf(stdout, "----------------\n");
+    stack_free(s_float);
+    
     
     
     fprintf(stdout, "complex struct stack\n");
@@ -128,6 +128,7 @@ int main() {
     stack_pop(s_c, ct);
     cplx_strct_print(ct);
     cplx_strct_free(ct);
+    stack_free(s_c);
     
     return 0;
 }

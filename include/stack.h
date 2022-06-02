@@ -1,3 +1,6 @@
+#ifndef _STACK_H_
+#define _STACK_H_
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -18,3 +21,6 @@ size_t stack_push(stack_t stack, void * elem);
 void stack_pop(stack_t stack, void* dst);
 void stack_peek(stack_t stack, void* dst);
 void stack_free(stack_t stack);
+
+#endif 
+/* _STACK_H_ */
