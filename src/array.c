@@ -23,7 +23,12 @@ size_t array_insert(array_t a, size_t index, void * elem) {
             return a->arr_cur_size;
         }
         a->arr_max_size = t;
-        a->arr = realloc(a->arr, a->elem_size * a->arr_max_size);
+        void * tmp = realloc(a->arr, a->elem_size * a->arr_max_size);
+        if (tmp == NULL) {
+            fprintf(stderr, "memory error, cannot add element\n");
+            return a->arr_cur_size;
+        }
+        a->arr = tmp;
     }
     memmove(a->arr + (index + 1) * a->elem_size, a->arr + index * a->elem_size, (a->arr_cur_size++ - index) * a->elem_size);
     memcpy(a->arr + index * a->elem_size, elem, a->elem_size);

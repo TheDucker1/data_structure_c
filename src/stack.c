@@ -19,7 +19,12 @@ size_t stack_push(stack_t s, void * elem) {
             return s->arr_cur_size;
         }
         s->arr_max_size = t;
-        s->arr = realloc(s->arr, s->elem_size * s->arr_max_size);
+        void * tmp = realloc(s->arr, s->elem_size * s->arr_max_size);
+        if (tmp == NULL) {
+            fprintf(stderr, "memory error, cannot push element\n");
+            return s->arr_cur_size;
+        }
+        s->arr = tmp;
     }
     memcpy(s->arr + (s->arr_cur_size++) * s->elem_size, elem, s->elem_size);
     
@@ -33,9 +38,16 @@ void stack_pop(stack_t s, void * dst) {
     }
     memcpy(dst, s->arr + (--s->arr_cur_size) * s->elem_size, s->elem_size);
     
-    if ((s->arr_max_size > 1) && ((s->arr_max_size >> 1)) >= s->arr_cur_size) {
-        s->arr_max_size >>= 1;
-        s->arr = realloc(s->arr, s->elem_size * s->arr_max_size);
+    while ((s->arr_max_size > 1) && ((s->arr_max_size >> 1)) >= s->arr_cur_size) {
+        size_t t_size = s->arr_max_size >> 1;
+        void * t = realloc(s->arr, s->elem_size * t_size);
+        if (t == NULL) {
+            /* this should not happen */
+            fprintf(stderr, "cannot change stack size\n");
+            return;
+        }
+        s->arr = t;
+        s->arr_max_size = t_size;
     }
     return;
 }

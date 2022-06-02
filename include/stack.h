@@ -15,8 +15,8 @@ typedef struct _stack_t {
 typedef _stack_t* stack_t;
 
 stack_t stack_new(size_t elem_size);
-#define stack_size(s) ((s->arr_cur_size))
-#define stack_esize(s) ((s->elem_size))
+#define stack_size(s) (s->arr_cur_size)
+#define stack_esize(s) (s->elem_size)
 size_t stack_push(stack_t stack, void * elem);
 void stack_pop(stack_t stack, void* dst);
 void stack_peek(stack_t stack, void* dst);

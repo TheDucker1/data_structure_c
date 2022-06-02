@@ -13,6 +13,10 @@ void print_arr_f(array_t arr) {
 }
 #undef arr_get
 
+int sort_func(const void * a, const void *b) {
+    return (*(float*)(a) > *(float*)(b));
+}
+
 int main(void) {
     float f;
     array_t arr = array_new(sizeof(float));
@@ -39,6 +43,9 @@ int main(void) {
     f = 9.99f;
     array_assign(arr, 0, &f);
     print_arr_f(arr);
+    array_sort(arr, sort_func);
+    print_arr_f(arr);
+    array_free(arr);
     
     return 0;
 }

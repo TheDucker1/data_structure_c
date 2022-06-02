@@ -15,8 +15,8 @@ typedef struct _array_t {
 typedef _array_t* array_t;
 
 array_t array_new(size_t elem_size);
-#define array_size(a) ((a->arr_cur_size))
-#define array_esize(a) ((a->elem_size))
+#define array_size(a) (a->arr_cur_size)
+#define array_esize(a) (a->elem_size)
 size_t array_add(array_t arr, void * elem);
 size_t array_insert(array_t arr, size_t index, void * elem);
 
